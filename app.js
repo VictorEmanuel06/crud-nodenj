@@ -29,6 +29,28 @@ app.get('/usuarios', (req, res) => {
     });
 });
 
+//UPDATE (Alteração)
+app.put('/usuarios/:id', (req, res) => {
+    const { nome, email, telefone } = req.body;
+    const { id } = req.params;
+
+    const sql = 'UPDATE usuarios SET nome=?, email=?, telefone=? WHERE id=?';
+    db.query(sql, [nome, email, telefone, id], (err) => {
+        if (err) return res.status(500).json(err);
+        res.json({ message: 'Usuário atualizado!' });
+    });
+
+});
+
+//DELETE (Exclusão)
+app.delete('/usuarios/:id', (req, res) => {
+    const { id } = req.params;
+    db.query('DELETE FROM usuarios WHERE id=?', [id], (err) => {
+        if (err) return res.status(500).json(err);
+        res.json({ message: 'Usuário removido!' });
+    });
+});
+
 
 app.listen(3000, () => {
     console.log('Servidor rodando em http://localhost:3000');
